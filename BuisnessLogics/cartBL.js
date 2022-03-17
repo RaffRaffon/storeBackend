@@ -1,45 +1,42 @@
 const Cart = require('../models/cartModel');
-const jwtSecret = 'sxw51D@ehWt'
-const jwt = require('jsonwebtoken');
+const { verify } = require('../services/jwt.service');
 // Need to hide the jwtSecret
 async function updateUserCartData(cartData, token) {
-    const userDetails = jwt.verify(token, jwtSecret);
-    if (cartData.length === 0) {
-        Cart.findOneAndDelete({ UserId: userDetails._id }, function (err, docs) {
-            if (err) {
-                console.log(err)
-            }
-            else {
-                console.log("Cart deleted");
-            }
-        });
-        return
-    }
-    const checkIfExist = await Cart.findOne({ UserId: userDetails._id }).exec();
-    if (checkIfExist === null) {
+    try {
+        const userDetails = verify(token);
+        if (!userDetails) return null;
+
+        if (cartData.length === 0) {
+            await Cart.findOneAndDelete({ UserId: userDetails._id }).exec();
+            return { operation: 'deleted' }
+        }
+
+        const checkIfExist = await Cart.findOne({ UserId: userDetails._id }).exec();
+        if (checkIfExist != null) {
+            await Cart.findOneAndUpdate({ UserId: userDetails._id }, {
+                Items: cartData
+            });
+            console.log("Cart updated")
+            return { operation: 'update' }
+        }
+
         const newCart = new Cart({
             Items: cartData,
             UserId: userDetails._id
         })
-        newCart.save(function (err, result) {
-            if (err) {
-                console.log(err);
-            }
-            else {
-                console.log("Cart inserted successfully")
-            }
-        })
-    } else {
-        await Cart.findOneAndUpdate({ UserId: userDetails._id }, {
-            Items: cartData
-        });
-        console.log("Cart updated")
+
+        await newCart.save();
+        return { operation: 'created' }
+    } catch (error) {
+        console.log("🚀 ~ file: cartBL.js ~ line 31 ~ updateUserCartData ~ error", error)
+        return { operation: null }
     }
+
 }
 async function getUserCartData(token) {
     //  Need to change the retrivation by token to retrivation by uid
     if (token) {
-        const userDetails = jwt.verify(token, jwtSecret);
+        const userDetails = verify(token);
         const retrievedCart = await Cart.findOne({ UserId: userDetails._id }).exec();
         if (retrievedCart) return retrievedCart
         else return []
