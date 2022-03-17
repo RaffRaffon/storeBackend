@@ -3,7 +3,10 @@ const router = express.Router();
 const usersBL = require('../BuisnessLogics/usersBL')
 module.exports = router;
 
-
+router.route('/consoleLog')
+    .get((req, resp) => {
+        console.log("logging into the terminal");
+    })
 router.route('/registerUser')
     .post((req, resp) => {
         usersBL.registerUser(req.body.data.userData)
