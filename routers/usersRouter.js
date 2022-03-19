@@ -2,10 +2,12 @@ const express = require('express');
 const router = express.Router();
 const usersBL = require('../BuisnessLogics/usersBL')
 module.exports = router;
-
+let counter=0
 router.route('/consoleLog')
     .get((req, resp) => {
-        console.log("logging into the terminal");
+        console.log("logging into the terminal",counter);
+         resp.send("hello")
+         counter++
     })
 router.route('/registerUser')
     .post((req, resp) => {
