@@ -1,17 +1,13 @@
 const express = require('express');
+const res = require('express/lib/response');
 const router = express.Router();
 const usersBL = require('../BuisnessLogics/usersBL')
 module.exports = router;
-let counter=0
-router.route('/consoleLog')
-    .get((req, resp) => {
-        console.log("logging into the terminal",counter);
-         resp.send("hello")
-         counter++
-    })
+
 router.route('/registerUser')
     .post((req, resp) => {
         usersBL.registerUser(req.body.data.userData)
+        resp.send("ok")
     })
 
 router.route('/checkCreds')
@@ -36,6 +32,7 @@ router.route('/getPersonalData')
 router.route('/updatePersonalData')
     .put((req, resp) => {
         usersBL.updatePersonalData(req.body.data.userData)
+        resp.send("ok")
     })
 router.route('/checkTokenForLogin')
     .post(async (req, resp) => {
@@ -44,4 +41,5 @@ router.route('/checkTokenForLogin')
 router.route('/moveCartToDB')
     .post((req, resp) => {
         usersBL.moveCartToDB(req.body.data.cartData, req.body.data.email);
+        resp.send("ok")
     })

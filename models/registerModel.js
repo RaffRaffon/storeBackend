@@ -3,7 +3,7 @@ let RegisterSchema = new mongoose.Schema({
     FLname:String,
     Email:String,
     Password:String,
-    Address:String,
+    StreetName:String,
     Hnumber:String,
     Anumber:String,
     City:String,

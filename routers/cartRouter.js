@@ -1,14 +1,14 @@
 const express = require('express');
-const res = require('express/lib/response');
 const router = express.Router();
 const cartBL = require('../BuisnessLogics/cartBL')
 module.exports = router;
 
 router.route('/updateUserCartData')
     .put((req, resp) => {
+
         cartBL.updateUserCartData(req.body.data.cartData, req.body.data.token);
         resp.send("updated cart")
-       
+
     })
 router.route('/getUserCartData')
     .post(async (req, resp) => {
