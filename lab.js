@@ -1,9 +1,10 @@
-const argon2 = require('argon2');
+const array = []
 
-
-async function argon() {
-
-    console.log(await argon2.hash("asdasd"))
+for (let i = 1; i <= 12; i++) {
+    let string=""
+    if (i<10) string="0"+i
+    else string+=i
+    array.push(String(string))
 }
 
-argon()
+console.log(array);

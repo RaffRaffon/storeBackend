@@ -11,12 +11,10 @@ let OrdersSchema = new mongoose.Schema({
     Pnumber:String,
     Notes:String,
     Cnumber:String,
-    EDateDay:String,
-    EDateMonth:String,
-    CVV:String,
     TotalProducts:Number,
     TotalPrice:Number,
-    CartDetails:Object
+    CartDetails:Object,
+    OrderDate:String
 })
 
 module.exports = mongoose.model('orders',OrdersSchema);

@@ -12,8 +12,11 @@ function getAllItems() {
     })
 }
 
-
+async function getSpecificItem(id){
+  const itemToReturn = await Item.findOne({_id:id}).exec();
+  return itemToReturn
+}
 
 module.exports = {
-    getAllItems
+    getAllItems,getSpecificItem
 }

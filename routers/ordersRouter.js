@@ -10,7 +10,12 @@ router.route('/sendOrder')
         resp.send("ok")
     })
 
-    router.route('/getOrders')
-    .post(async(req, resp) => {
+router.route('/getOrders')
+    .post(async (req, resp) => {
         return resp.json(await ordersBL.getOrders(req.body.data.token))
+    })
+
+router.route('/getSpecificOrder')
+    .get(async (req, resp) => {
+        return resp.json(await ordersBL.getSpecificOrder(req.query.id));
     })

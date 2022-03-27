@@ -15,12 +15,10 @@ function saveOrder(orderData){
         Pnumber:orderData.pnumber,
         Notes:orderData.notes,
         Cnumber:orderData.cnumber,
-        EDateDay:orderData.eDateDay,
-        EDateMonth:orderData.eDateMonth,
-        CVV:orderData.cvv,
         TotalProducts:orderData.totalProducts,
         TotalPrice:orderData.totalPrice,
-        CartDetails:orderData.cartDetails
+        CartDetails:orderData.cartDetails,
+        OrderDate:orderData.orderDate
     })
     newOrder.save(function (err, result) {
         if (err) {
@@ -38,7 +36,10 @@ async function getOrders(token){
     return retrievedOrders
 }
 
-
+async function getSpecificOrder(id){
+    const orderToReturn = await Orders.findOne({_id:id}).exec();
+    return orderToReturn
+}
 module.exports = {
-    saveOrder,getOrders
+    saveOrder,getOrders,getSpecificOrder
 }
