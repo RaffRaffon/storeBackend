@@ -12,11 +12,51 @@ function getAllItems() {
     })
 }
 
-async function getSpecificItem(id){
-  const itemToReturn = await Item.findOne({_id:id}).exec();
-  return itemToReturn
+async function getSpecificItem(id) {
+    const itemToReturn = await Item.findOne({ _id: id }).exec();
+    return itemToReturn
 }
 
+async function addItem(itemData) {
+    const checkIfExist = await Item.findOne({ Name: itemData.name }).exec();
+    if (checkIfExist === null) {
+        const newItem = new Item({
+            Name: itemData.name,
+            Price: itemData.price,
+            Picture: itemData.picture,
+            Description: itemData.description
+        })
+        newItem.save(function (err, result) {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                console.log("Item inserted successfully")
+            }
+        })
+        return "Item inserted successfully"
+    } else {
+        console.log("Item with the same name already exist");
+        return "Item with the same name already exist"
+    }
+}
+async function editItem(itemData) {
+    // Need to edit the item specific queries, with $set. 
+    const checkIfExist = await Item.findOne({ Name: itemData.name }).exec();
+    if (checkIfExist === null || checkIfExist._id == itemData._id) {
+        await Item.findOneAndUpdate({ _id: itemData._id }, {
+            Name: itemData.name,
+            Price: itemData.price,
+            Picture: itemData.picture,
+            Description: itemData.description
+        });
+        console.log("Item updated")
+        return "Item updated"
+    } else {
+        console.log("Item with the same name already exist");
+        return "Item with the same name already exist"
+    }
+}
 module.exports = {
-    getAllItems,getSpecificItem
+    getAllItems, getSpecificItem, addItem, editItem
 }
