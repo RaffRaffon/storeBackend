@@ -1,7 +1,6 @@
 {
   "name": "storebackend",
   "version": "1.0.0",
-  "description": "",
   "main": "main.js",
   "scripts": {
     "start": "nodemon main"
@@ -15,7 +14,18 @@
     "cors": "^2.8.5",
     "express": "^4.17.3",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.2.4",
-    "nodemon": "^2.0.15"
-  }
+    "mongoose": "^6.2.4"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RaffRaffon/storeBackend.git"
+  },
+  "bugs": {
+    "url": "https://github.com/RaffRaffon/storeBackend/issues"
+  },
+  "homepage": "https://github.com/RaffRaffon/storeBackend#readme",
+  "description": ""
 }

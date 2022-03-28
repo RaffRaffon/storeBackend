@@ -57,6 +57,22 @@ async function editItem(itemData) {
         return "Item with the same name already exist"
     }
 }
+
+function deleteItem(itemId) {
+    return new Promise((resolve, reject) => {
+        Item.findByIdAndDelete(itemId, function (err, docs) {
+            if (err) {
+                console.log(err)
+                reject("An error occured, item has not been deleted")
+            }
+            else {
+                console.log("Item deleted");
+                resolve("Item deleted")
+            }
+        });
+    })
+
+}
 module.exports = {
-    getAllItems, getSpecificItem, addItem, editItem
+    getAllItems, getSpecificItem, addItem, editItem, deleteItem
 }
