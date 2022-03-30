@@ -71,6 +71,10 @@ async function getUsername(email) {
     const userData = await User.findOne({ Email: email }).exec();
     return userData.FLname
 }
+async function getUserId(email) {
+    const userData = await User.findOne({ Email: email.toLowerCase() }).exec();
+    return userData?._id
+}
 async function getPersonalData(token) {
     const userDetails = jwt.verify(token, jwtSecret);
     let userData = await User.findOne({ _id: userDetails._id }).exec();
@@ -80,9 +84,9 @@ async function getPersonalData(token) {
 }
 
 async function updatePersonalData(userData) {
-    await User.findOneAndUpdate({ Email: userData.email }, {
+    await User.findOneAndUpdate({ Email: userData.oldEmail }, {
         FLname: userData.flname,
-        Email: userData.email,
+        Email: userData.newEmail.toLowerCase(),
         Password: await argon2.hash(userData.password),
         StreetName: userData.streetName,
         Hnumber: userData.hnumber,
@@ -90,7 +94,7 @@ async function updatePersonalData(userData) {
         City: userData.city,
         Zipcode: userData.zipcode,
         Pnumber: userData.pnumber
-    });
+    }).exec()
 }
 
 
@@ -125,5 +129,5 @@ async function moveCartToDB(cartData, email) {
 }
 module.exports = {
             registerUser, checkCreds, checkEmail, getUsername, getPersonalData,
-            updatePersonalData, checkTokenForLogin, moveCartToDB
+            updatePersonalData, checkTokenForLogin, moveCartToDB,getUserId
         }

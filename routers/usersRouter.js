@@ -25,6 +25,11 @@ router.route('/getUsername')
     .post(async (req, resp) => {
         return resp.json(await usersBL.getUsername(req.body.data.email))
     })
+    router.route('/getUserId')
+    .post(async (req, resp) => {
+        console.log(await usersBL.getUserId(req.body.data.email));
+        return resp.json(await usersBL.getUserId(req.body.data.email))
+    })
 router.route('/getPersonalData')
     .post(async (req, resp) => {
         return resp.json(await usersBL.getPersonalData(req.body.data.token))

@@ -19,3 +19,9 @@ router.route('/getSpecificOrder')
     .get(async (req, resp) => {
         return resp.json(await ordersBL.getSpecificOrder(req.query.id));
     })
+
+router.route('/getUserOrders')
+    .get(async (req, resp) => {
+        return resp.json(await ordersBL.getUserOrders(req.query.id));
+
+    })

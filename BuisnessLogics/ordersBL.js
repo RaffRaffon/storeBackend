@@ -32,7 +32,7 @@ function saveOrder(orderData){
 
 async function getOrders(token){
     const userDetails = jwt.verify(token, jwtSecret);
-    const retrievedOrders = await Orders.find({ UserId: userDetails._id }).exec();
+    const retrievedOrders = await Orders.find({ 'CartDetails.UserId': userDetails._id }).exec();
     return retrievedOrders
 }
 
@@ -40,6 +40,19 @@ async function getSpecificOrder(id){
     const orderToReturn = await Orders.findOne({_id:id}).exec();
     return orderToReturn
 }
+
+async function getUserOrders(id){
+    return new Promise((resolve, reject) => {
+        Orders.find({'CartDetails.UserId':id}, function (err, data) {
+            if (err) {
+                reject(err);
+            }
+            else {
+                resolve(data);
+            }
+        });
+    })
+}
 module.exports = {
-    saveOrder,getOrders,getSpecificOrder
+    saveOrder,getOrders,getSpecificOrder,getUserOrders
 }
