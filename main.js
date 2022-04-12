@@ -7,8 +7,8 @@ const usersRouter = require('./routers/usersRouter')
 const cartRouter = require('./routers/cartRouter')
 const ordersRouter = require('./routers/ordersRouter')
 app.use(cors());
-app.use(bp.json());
-app.use(bp.urlencoded({extended : false}));
+app.use(bp.json({limit: '50mb'}));
+app.use(bp.urlencoded({limit: '50mb', extended: false}));
 require('./configs/database');
 app.use('/api/items', itemsRouter);
 app.use('/api/users', usersRouter);

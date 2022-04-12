@@ -25,7 +25,6 @@ router.route('/addItem')
 router.route('/editItem')
     .put(async (req, resp) => {
         // Need to add a response if item with the same name exists or not
-        console.log("hello sss");
         return resp.json(await itemsBL.editItem(req.body.data.itemData))
     })
 router.route('/getAnItem')
@@ -36,9 +35,14 @@ router.route('/getAnItem')
 
 router.route('/deleteItem')
     .delete(async (req, resp) => {
-        try{
-            return resp.json(await itemsBL.deleteItem(req.body.itemId))
-        } catch(e){
+        try {
+            return resp.json(await itemsBL.deleteItem(req.body.itemId,req.body.itemName))
+        } catch (e) {
             return resp.json((e))
         }
+    })
+
+router.route('/addItemImage')
+    .post(async (req, resp) => {
+        return resp.json(await itemsBL.addItemImage(req.body.data.imageData, req.body.data.imageName))
     })
